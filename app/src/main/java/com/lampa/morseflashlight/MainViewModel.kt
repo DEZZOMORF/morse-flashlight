@@ -34,27 +34,32 @@ class MainViewModel @Inject constructor(
 
     fun onAction(action: FlashlightAction) {
         when (action) {
-            is FlashlightAction.Off -> turnOffFlashlight()
             is FlashlightAction.Torch -> turnFlashlight()
             is FlashlightAction.Morse -> turnOnMorse(action.textOnMorse)
             is FlashlightAction.Stroboscope -> turnOnStroboscope()
+            is FlashlightAction.Off -> {
+                morseScope.cancel()
+                turnOffFlashlight()
+            }
         }
     }
 
     private fun turnOffFlashlight() {
-        morseScope.cancel()
         torchManager.turnOffFlashlight()
         _flashlightState.value = false
+    }
+
+    private fun turnOnFlashlight() {
+        torchManager.turnOnFlashlight()
+        _flashlightState.value = true
     }
 
     private fun turnFlashlight() {
         morseScope.cancel()
         if (!flashlightState.value) {
-            torchManager.turnOnFlashlight()
-            _flashlightState.value = true
+            turnOnFlashlight()
         } else {
-            torchManager.turnOffFlashlight()
-            _flashlightState.value = false
+            turnOffFlashlight()
         }
     }
 
@@ -64,14 +69,14 @@ class MainViewModel @Inject constructor(
             morse.forEach { morseSymbol ->
                 when (morseSymbol) {
                     MorseSymbol.DOT -> {
-                        torchManager.turnOnFlashlight()
+                        turnOnFlashlight()
                         delay(MORSE_DOT_DELAY)
-                        torchManager.turnOffFlashlight()
+                        turnOffFlashlight()
                     }
                     MorseSymbol.DASH -> {
-                        torchManager.turnOnFlashlight()
+                        turnOnFlashlight()
                         delay(MORSE_DASH_DELAY)
-                        torchManager.turnOffFlashlight()
+                        turnOffFlashlight()
                     }
                 }
                 delay(MORSE_PAUSE_DELAY)
@@ -83,9 +88,9 @@ class MainViewModel @Inject constructor(
     private fun turnOnStroboscope() {
         morseScope.cancel()
         morseScope = viewModelScope.launch {
-            torchManager.turnOnFlashlight()
+            turnOnFlashlight()
             delay(STROBOSCOPE_DELAY)
-            torchManager.turnOffFlashlight()
+            turnOffFlashlight()
             delay(STROBOSCOPE_DELAY)
             turnOnStroboscope()
         }

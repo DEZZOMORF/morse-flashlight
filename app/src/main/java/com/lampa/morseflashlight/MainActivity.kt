@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +35,7 @@ class MainActivity : ComponentActivity() {
             val mainViewModel: MainViewModel = hiltViewModel()
             val flashlightState by mainViewModel.flashlightState.collectAsState()
             MainScreen(
+                flashlightState = flashlightState,
                 onAction = mainViewModel::onAction
             )
         }
@@ -40,6 +44,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(
+    flashlightState: Boolean,
     onAction: (FlashlightAction) -> Unit
 ) {
     MorseFlashlightTheme {
@@ -52,10 +57,19 @@ fun MainScreen(
             ) {
                 Row {
                     OffButton { onAction(FlashlightAction.Off) }
+                    Spacer(modifier = Modifier.width(12.dp))
                     SimpleButton { onAction(FlashlightAction.Torch) }
                 }
+                Box(
+                    modifier = Modifier
+                        .height(12.dp)
+                        .width(12.dp)
+                        .clip(shape = CircleShape)
+                        .background(if (flashlightState) Color.Yellow else Color.Gray)
+                )
                 Row {
                     SosButton { onAction(FlashlightAction.Morse("SOS")) }
+                    Spacer(modifier = Modifier.width(12.dp))
                     StroboscopeButton { onAction(FlashlightAction.Stroboscope) }
                 }
             }

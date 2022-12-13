@@ -22,7 +22,6 @@ fun FlashlightButton(
         modifier = Modifier
             .height(120.dp)
             .width(120.dp)
-            .padding(8.dp)
             .clip(shape = RoundedCornerShape(24.dp))
             .background(Color.Gray)
             .clickable { onClick() }
