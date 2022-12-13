@@ -1,8 +1,11 @@
-package com.lampa.morseflashlight
+package com.lampa.morseflashlight.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.lampa.morseflashlight.manager.TorchManager
+import com.lampa.morseflashlight.`object`.FlashlightAction
+import com.lampa.morseflashlight.`object`.MorseSymbol
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job

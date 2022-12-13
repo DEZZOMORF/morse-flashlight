@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight
+package com.lampa.morseflashlight.`object`
 
 enum class MorseCode(private val char: Char) {
     A('A'),
@@ -41,7 +41,7 @@ enum class MorseCode(private val char: Char) {
     val symbolsString: List<MorseSymbol>
         get() = when (this) {
             A -> listOf(MorseSymbol.DOT, MorseSymbol.DASH)
-            B -> listOf(MorseSymbol.DASH, MorseSymbol.DOT,MorseSymbol.DOT,MorseSymbol.DOT)
+            B -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT)
             C -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DOT)
             D -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT)
             E -> listOf(MorseSymbol.DOT)

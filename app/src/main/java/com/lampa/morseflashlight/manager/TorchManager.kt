@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight
+package com.lampa.morseflashlight.manager
 
 import android.content.Context
 import android.hardware.camera2.CameraManager

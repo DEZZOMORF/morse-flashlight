@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight
+package com.lampa.morseflashlight.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,6 +23,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.lampa.morseflashlight.viewmodel.MainViewModel
+import com.lampa.morseflashlight.R
+import com.lampa.morseflashlight.`object`.FlashlightAction
 import com.lampa.morseflashlight.ui.FlashlightButton
 import com.lampa.morseflashlight.ui.theme.MorseFlashlightTheme
 import dagger.hilt.android.AndroidEntryPoint
