@@ -36,7 +36,8 @@ enum class MorseCode(private val char: Char) {
     SEVEN('7'),
     EIGHT('8'),
     NINE('9'),
-    ZERO('0');
+    ZERO('0'),
+    SPACE(' ');
 
     val symbolsString: List<MorseSymbol>
         get() = when (this) {
@@ -76,11 +77,16 @@ enum class MorseCode(private val char: Char) {
             EIGHT -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT)
             NINE -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT)
             ZERO -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH)
+            SPACE -> listOf(MorseSymbol.WORD_END)
         }
 
     companion object {
         fun convertCharToMorseCode(char: Char): List<MorseSymbol> {
-            return values().find { it.char == char }?.symbolsString ?: emptyList()
+            val morseCode = values().find { it.char == char.uppercaseChar() } ?: return emptyList()
+            return when (morseCode) {
+                SPACE -> SPACE.symbolsString
+                else -> morseCode.symbolsString.toMutableList().apply { add(MorseSymbol.LETTER_END) }
+            }
         }
     }
 }

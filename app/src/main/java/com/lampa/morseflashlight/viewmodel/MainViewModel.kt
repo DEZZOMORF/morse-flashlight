@@ -3,9 +3,9 @@ package com.lampa.morseflashlight.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.lampa.morseflashlight.manager.TorchManager
 import com.lampa.morseflashlight.`object`.FlashlightAction
 import com.lampa.morseflashlight.`object`.MorseSymbol
+import com.lampa.morseflashlight.manager.TorchManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
@@ -22,9 +22,11 @@ class MainViewModel @Inject constructor(
 ) : AndroidViewModel(context) {
 
     companion object {
-        const val MORSE_DOT_DELAY = 100L
-        const val MORSE_DASH_DELAY = 500L
-        const val MORSE_PAUSE_DELAY = 1000L
+        const val MORSE_DOT_DELAY = 200L
+        const val MORSE_DASH_DELAY = MORSE_DOT_DELAY * 3
+        const val MORSE_SYMBOL_PAUSE_DELAY = MORSE_DOT_DELAY
+        const val MORSE_LETTER_PAUSE_DELAY = MORSE_DOT_DELAY * 2
+        const val MORSE_WORD_PAUSE_DELAY = MORSE_DOT_DELAY * 4
         const val STROBOSCOPE_DELAY = 50L
     }
 
@@ -75,14 +77,21 @@ class MainViewModel @Inject constructor(
                         turnOnFlashlight()
                         delay(MORSE_DOT_DELAY)
                         turnOffFlashlight()
+                        delay(MORSE_SYMBOL_PAUSE_DELAY)
                     }
                     MorseSymbol.DASH -> {
                         turnOnFlashlight()
                         delay(MORSE_DASH_DELAY)
                         turnOffFlashlight()
+                        delay(MORSE_SYMBOL_PAUSE_DELAY)
+                    }
+                    MorseSymbol.LETTER_END -> {
+                        delay(MORSE_LETTER_PAUSE_DELAY)
+                    }
+                    MorseSymbol.WORD_END -> {
+                        delay(MORSE_WORD_PAUSE_DELAY)
                     }
                 }
-                delay(MORSE_PAUSE_DELAY)
             }
             turnOnMorse(morse)
         }

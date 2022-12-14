@@ -3,14 +3,12 @@ package com.lampa.morseflashlight.`object`
 sealed class FlashlightAction {
     object Off : FlashlightAction()
     object Torch : FlashlightAction()
-    object Stroboscope: FlashlightAction()
+    object Stroboscope : FlashlightAction()
     data class Morse(private val text: String) : FlashlightAction() {
-        val textOnMorse = mutableListOf<MorseSymbol>().apply {
-            text.map { char ->
-                addAll(char.toMorse())
-            }
-        }.toList()
+        val textOnMorse = text.toMorseSymbolList()
 
+        private fun String.toMorseSymbolList() = this.setUpSpaces().map { char -> char.toMorse() }.flatten()
+        private fun String.setUpSpaces() = this.trim().plus(" ")
         private fun Char.toMorse() = MorseCode.convertCharToMorseCode(this)
     }
 }
