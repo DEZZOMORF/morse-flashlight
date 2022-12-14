@@ -9,8 +9,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.lampa.morseflashlight.ui.MainButtons
 import com.lampa.morseflashlight.ui.MorseUi
 import com.lampa.morseflashlight.ui.theme.MorseFlashlightTheme
@@ -24,7 +26,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MorseFlashlightTheme {
+            val systemUiController = rememberSystemUiController()
+            systemUiController.setSystemBarsColor(
+                color = Color.DarkGray
+            )
+            MorseFlashlightTheme(darkTheme = true) {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val mainViewModel: MainViewModel = hiltViewModel()
                     val flashlightState by mainViewModel.flashlightState.collectAsState()

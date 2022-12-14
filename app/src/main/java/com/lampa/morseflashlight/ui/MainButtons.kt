@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lampa.morseflashlight.R
 import com.lampa.morseflashlight.`object`.FlashlightAction
-import com.lampa.morseflashlight.ui.theme.defaultContentPadding
 import com.lampa.morseflashlight.ui.theme.defaultArrangementSpace
+import com.lampa.morseflashlight.ui.theme.defaultContentPadding
 
 @Composable
 fun MainButtons(
@@ -120,8 +120,7 @@ fun SosButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     val defaultTextStyle = TextStyle(
         textAlign = TextAlign.Center,
         fontSize = 60.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.White
+        fontWeight = FontWeight.Bold
     )
     var textStyle by remember { mutableStateOf(defaultTextStyle) }
     var readyToDraw by remember { mutableStateOf(false) }

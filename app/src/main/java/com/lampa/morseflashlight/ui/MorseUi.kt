@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -70,8 +69,7 @@ fun MorseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     val defaultTextStyle = TextStyle(
         textAlign = TextAlign.Center,
         fontSize = 60.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.White
+        fontWeight = FontWeight.Bold
     )
     var textStyle by remember { mutableStateOf(defaultTextStyle) }
     var readyToDraw by remember { mutableStateOf(false) }
