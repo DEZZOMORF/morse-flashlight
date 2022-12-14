@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight.`object`
+package com.dezzomorf.morseflashlight.`object`
 
 sealed class FlashlightAction {
     object Off : FlashlightAction()

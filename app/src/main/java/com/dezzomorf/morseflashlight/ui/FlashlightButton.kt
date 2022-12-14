@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight.ui
+package com.dezzomorf.morseflashlight.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

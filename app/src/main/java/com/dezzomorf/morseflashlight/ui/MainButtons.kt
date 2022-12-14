@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight.ui
+package com.dezzomorf.morseflashlight.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,10 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lampa.morseflashlight.R
-import com.lampa.morseflashlight.`object`.FlashlightAction
-import com.lampa.morseflashlight.ui.theme.defaultArrangementSpace
-import com.lampa.morseflashlight.ui.theme.defaultContentPadding
+import com.dezzomorf.morseflashlight.R
+import com.dezzomorf.morseflashlight.`object`.FlashlightAction
+import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
+import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 
 @Composable
 fun MainButtons(

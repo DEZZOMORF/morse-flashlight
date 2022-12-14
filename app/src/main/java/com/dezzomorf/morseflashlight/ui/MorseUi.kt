@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight.ui
+package com.dezzomorf.morseflashlight.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,8 +19,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lampa.morseflashlight.`object`.FlashlightAction
-import com.lampa.morseflashlight.ui.theme.defaultContentPadding
+import com.dezzomorf.morseflashlight.`object`.FlashlightAction
+import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

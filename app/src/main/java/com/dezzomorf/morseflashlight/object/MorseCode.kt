@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight.`object`
+package com.dezzomorf.morseflashlight.`object`
 
 enum class MorseCode(private val char: Char) {
     A('A'),

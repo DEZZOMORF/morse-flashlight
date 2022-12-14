@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight.activity
+package com.dezzomorf.morseflashlight.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,11 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.lampa.morseflashlight.ui.MainButtons
-import com.lampa.morseflashlight.ui.MorseUi
-import com.lampa.morseflashlight.ui.theme.MorseFlashlightTheme
-import com.lampa.morseflashlight.ui.theme.defaultArrangementSpace
-import com.lampa.morseflashlight.viewmodel.MainViewModel
+import com.dezzomorf.morseflashlight.ui.MainButtons
+import com.dezzomorf.morseflashlight.ui.MorseUi
+import com.dezzomorf.morseflashlight.ui.theme.MorseFlashlightTheme
+import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
+import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight.ui.theme
+package com.dezzomorf.morseflashlight.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

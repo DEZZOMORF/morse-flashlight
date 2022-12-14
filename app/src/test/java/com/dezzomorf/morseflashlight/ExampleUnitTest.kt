@@ -1,4 +1,4 @@
-package com.lampa.morseflashlight
+package com.dezzomorf.morseflashlight
 
 import org.junit.Test
 
