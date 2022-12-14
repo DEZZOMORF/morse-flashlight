@@ -45,7 +45,7 @@ fun MorseUi(
             .fillMaxSize()
             .weight(1f)) {
             MorseButton(Modifier.fillMaxSize()) {
-                onAction(FlashlightAction.Morse(text))
+                onAction(FlashlightAction.Morse(text, false))
             }
         }
     }

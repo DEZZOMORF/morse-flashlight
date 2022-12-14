@@ -40,7 +40,7 @@ class MainViewModel @Inject constructor(
     fun onAction(action: FlashlightAction) {
         when (action) {
             is FlashlightAction.Torch -> turnFlashlight()
-            is FlashlightAction.Morse -> turnOnMorse(action.textOnMorse)
+            is FlashlightAction.Morse -> turnOnMorse(action.textOnMorse, action.loop)
             is FlashlightAction.Stroboscope -> turnOnStroboscope()
             is FlashlightAction.Off -> {
                 morseScope.cancel()
@@ -68,7 +68,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun turnOnMorse(morse: List<MorseSymbol>) {
+    private fun turnOnMorse(morse: List<MorseSymbol>, loop: Boolean) {
         morseScope.cancel()
         morseScope = viewModelScope.launch {
             morse.forEach { morseSymbol ->
@@ -93,7 +93,7 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
-            turnOnMorse(morse)
+            if (loop) turnOnMorse(morse, loop)
         }
     }
 

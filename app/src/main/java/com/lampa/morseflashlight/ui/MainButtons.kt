@@ -69,7 +69,7 @@ fun MainButtons(
                 Modifier
                     .weight(1f)
             ) {
-                onAction(FlashlightAction.Morse("SOS"))
+                onAction(FlashlightAction.Morse("SOS", true))
             }
             StroboscopeButton(
                 Modifier
