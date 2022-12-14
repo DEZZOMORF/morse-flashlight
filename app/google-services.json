@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "439140005905",
+    "project_id": "morse-flashlight",
+    "storage_bucket": "morse-flashlight.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439140005905:android:a7ce122007905a847dd9b0",
+        "android_client_info": {
+          "package_name": "com.dezzomorf.morseflashlight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439140005905-1he4u276opgfo9i9lbp5kqem3q2bjpm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeBl20uLHX--6YPgmyQwS0AMNVpoWy3js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439140005905-1he4u276opgfo9i9lbp5kqem3q2bjpm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
