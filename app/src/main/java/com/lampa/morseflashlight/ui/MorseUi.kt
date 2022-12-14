@@ -2,27 +2,34 @@ package com.lampa.morseflashlight.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lampa.morseflashlight.`object`.FlashlightAction
 import com.lampa.morseflashlight.ui.theme.defaultContentPadding
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MorseUi(
     onAction: (FlashlightAction) -> Unit
 ) {
     var text by rememberSaveable { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -38,6 +45,13 @@ fun MorseUi(
                 onValueChange = { text = it },
                 label = { Text("Set your text") },
                 shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        onAction(FlashlightAction.Morse(text, false))
+                    }
+                ),
                 modifier = Modifier.fillMaxSize()
             )
         }
