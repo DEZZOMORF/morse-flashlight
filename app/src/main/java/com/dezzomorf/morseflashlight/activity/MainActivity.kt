@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dezzomorf.morseflashlight.manager.InAppUpdateManager
 import com.dezzomorf.morseflashlight.ui.MainButtons
 import com.dezzomorf.morseflashlight.ui.MorseUi
 import com.dezzomorf.morseflashlight.ui.theme.DarkGray
@@ -23,8 +24,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private lateinit var updateManager: InAppUpdateManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        updateManager = InAppUpdateManager(this)
+
         setContent {
             val systemUiController = rememberSystemUiController()
             systemUiController.setSystemBarsColor(
@@ -66,5 +72,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateManager.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        updateManager.onDestroy()
     }
 }
