@@ -9,15 +9,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.dezzomorf.morseflashlight.ui.MainButtons
 import com.dezzomorf.morseflashlight.ui.MorseUi
+import com.dezzomorf.morseflashlight.ui.theme.DarkGray
 import com.dezzomorf.morseflashlight.ui.theme.MorseFlashlightTheme
 import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
 import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val systemUiController = rememberSystemUiController()
             systemUiController.setSystemBarsColor(
-                color = Color.DarkGray
+                color = DarkGray
             )
             MorseFlashlightTheme(darkTheme = true) {
                 Surface(modifier = Modifier.fillMaxSize()) {

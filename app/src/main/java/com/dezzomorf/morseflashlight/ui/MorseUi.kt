@@ -6,12 +6,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,15 +38,22 @@ fun MorseUi(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Row(modifier = Modifier
-            .fillMaxSize()
-            .weight(3f)) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(3f)
+        ) {
             TextField(
                 value = text,
                 onValueChange = { text = it },
                 label = { Text("Set your text") },
                 shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                colors = TextFieldDefaults.textFieldColors(
+                    focusedLabelColor = Color.White,
+                    cursorColor = Color.White,
+                    focusedIndicatorColor = Color.White
+                ),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         keyboardController?.hide()
@@ -54,9 +63,11 @@ fun MorseUi(
                 modifier = Modifier.fillMaxSize()
             )
         }
-        Row(modifier = Modifier
-            .fillMaxSize()
-            .weight(1f)) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+        ) {
             MorseButton(Modifier.fillMaxSize()) {
                 onAction(FlashlightAction.Morse(text, false))
             }
