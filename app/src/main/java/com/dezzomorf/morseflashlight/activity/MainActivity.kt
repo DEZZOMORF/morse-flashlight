@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dezzomorf.morseflashlight.BuildConfig
 import com.dezzomorf.morseflashlight.manager.InAppUpdateManager
 import com.dezzomorf.morseflashlight.ui.MainButtons
 import com.dezzomorf.morseflashlight.ui.MorseUi
@@ -19,6 +20,7 @@ import com.dezzomorf.morseflashlight.ui.theme.MorseFlashlightTheme
 import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
 import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +31,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        updateManager = InAppUpdateManager(this)
+        setUpCrashlytics()
+        setUpUpdateManager()
 
         setContent {
             val systemUiController = rememberSystemUiController()
@@ -84,5 +87,13 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         updateManager.onDestroy()
+    }
+
+    private fun setUpCrashlytics() {
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
+    }
+
+    private fun setUpUpdateManager() {
+        updateManager = InAppUpdateManager(this)
     }
 }
