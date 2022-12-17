@@ -1,5 +1,6 @@
 package com.dezzomorf.morseflashlight.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -12,6 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -27,6 +29,7 @@ import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MorseUi(
+    morseText: String,
     onAction: (FlashlightAction) -> Unit
 ) {
     var text by rememberSaveable { mutableStateOf("") }
@@ -41,13 +44,42 @@ fun MorseUi(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(3f)
+                .weight(1f)
+                .align(Alignment.Start)
+        ) {
+            var lastVisibleTextIndex by rememberSaveable { mutableStateOf(0) }
+            if (morseText.length < 10) lastVisibleTextIndex = 0 // Use that because substring crash when clear [morseText]
+            val trimmedText = morseText.substring(lastVisibleTextIndex)
+            Text(
+                text = trimmedText,
+                maxLines = 1,
+                softWrap = false,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Bottom)
+                    .clip(shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp))
+                    .background(Color.Gray)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                onTextLayout = { textLayoutResult ->
+                    if (textLayoutResult.hasVisualOverflow) {
+                        lastVisibleTextIndex += textLayoutResult.getLineEnd(
+                            lineIndex = 0,
+                            visibleEnd = true
+                        ) - 1
+                    }
+                }
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(5f)
         ) {
             TextField(
                 value = text,
                 onValueChange = { text = it },
                 label = { Text("Set your text") },
-                shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
+                shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 colors = TextFieldDefaults.textFieldColors(
                     focusedLabelColor = Color.White,
@@ -66,7 +98,7 @@ fun MorseUi(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(1f)
+                .weight(2f)
         ) {
             MorseButton(Modifier.fillMaxSize()) {
                 onAction(FlashlightAction.Morse(text, false))

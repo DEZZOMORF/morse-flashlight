@@ -5,10 +5,9 @@ sealed class FlashlightAction {
     object Torch : FlashlightAction()
     object Stroboscope : FlashlightAction()
     data class Morse(private val text: String, val loop: Boolean) : FlashlightAction() {
-        val textOnMorse = text.toMorseSymbolList()
-
-        private fun String.toMorseSymbolList() = this.setUpSpaces().map { char -> char.toMorse() }.flatten()
-        private fun String.setUpSpaces() = this.trim().plus(" ")
-        private fun Char.toMorse() = MorseCode.convertCharToMorseCode(this)
+        val textOnMorse = text.getMorseCode()
+        private fun String.getMorseCode() = this.map { char ->
+            MorseCode.getMorseCode(char)
+        }.filterNotNull()
     }
 }

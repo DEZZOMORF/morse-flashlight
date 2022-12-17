@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val mainViewModel: MainViewModel = hiltViewModel()
                     val flashlightState by mainViewModel.flashlightState.collectAsState()
+                    val morseTextState by mainViewModel.morseTextState.collectAsState()
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(defaultArrangementSpace),
@@ -65,6 +66,7 @@ class MainActivity : ComponentActivity() {
                                 .weight(1f)
                         ) {
                             MorseUi(
+                                morseText = morseTextState,
                                 onAction = mainViewModel::onAction
                             )
                         }

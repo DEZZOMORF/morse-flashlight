@@ -3,7 +3,9 @@ package com.dezzomorf.morseflashlight.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.dezzomorf.morseflashlight.BuildConfig
 import com.dezzomorf.morseflashlight.`object`.FlashlightAction
+import com.dezzomorf.morseflashlight.`object`.MorseCode
 import com.dezzomorf.morseflashlight.`object`.MorseSymbol
 import com.dezzomorf.morseflashlight.manager.TorchManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,22 +20,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    @ApplicationContext context: Application
+    @ApplicationContext private val context: Application
 ) : AndroidViewModel(context) {
 
     companion object {
-        const val MORSE_DOT_DELAY = 200L
+        const val MORSE_DOT_DELAY = BuildConfig.MORSE_DOT_DELAY
         const val MORSE_DASH_DELAY = MORSE_DOT_DELAY * 3
         const val MORSE_SYMBOL_PAUSE_DELAY = MORSE_DOT_DELAY
         const val MORSE_LETTER_PAUSE_DELAY = MORSE_DOT_DELAY * 2
         const val MORSE_WORD_PAUSE_DELAY = MORSE_DOT_DELAY * 4
         const val STROBOSCOPE_DELAY = 50L
+        const val DEFAULT_TEXT = " "
     }
 
     private val torchManager = TorchManager(context)
 
     private val _flashlightState = MutableStateFlow(false)
     val flashlightState: StateFlow<Boolean> = _flashlightState.asStateFlow()
+
+    private val _morseTextState = MutableStateFlow(DEFAULT_TEXT)
+    val morseTextState: StateFlow<String> = _morseTextState.asStateFlow()
 
     private var morseScope: Job = viewModelScope.launch {}
 
@@ -43,7 +49,7 @@ class MainViewModel @Inject constructor(
             is FlashlightAction.Morse -> turnOnMorse(action.textOnMorse, action.loop)
             is FlashlightAction.Stroboscope -> turnOnStroboscope()
             is FlashlightAction.Off -> {
-                morseScope.cancel()
+                stop()
                 turnOffFlashlight()
             }
         }
@@ -60,7 +66,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun turnFlashlight() {
-        morseScope.cancel()
+        stop()
         if (!flashlightState.value) {
             turnOnFlashlight()
         } else {
@@ -68,37 +74,48 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun turnOnMorse(morse: List<MorseSymbol>, loop: Boolean) {
-        morseScope.cancel()
+    private fun turnOnMorse(morseCodes: List<MorseCode>, loop: Boolean) {
+        stop()
         morseScope = viewModelScope.launch {
-            morse.forEach { morseSymbol ->
-                when (morseSymbol) {
-                    MorseSymbol.DOT -> {
-                        turnOnFlashlight()
-                        delay(MORSE_DOT_DELAY)
-                        turnOffFlashlight()
-                        delay(MORSE_SYMBOL_PAUSE_DELAY)
-                    }
-                    MorseSymbol.DASH -> {
-                        turnOnFlashlight()
-                        delay(MORSE_DASH_DELAY)
-                        turnOffFlashlight()
-                        delay(MORSE_SYMBOL_PAUSE_DELAY)
-                    }
-                    MorseSymbol.LETTER_END -> {
-                        delay(MORSE_LETTER_PAUSE_DELAY)
-                    }
-                    MorseSymbol.WORD_END -> {
-                        delay(MORSE_WORD_PAUSE_DELAY)
+            morseCodes.forEach { morseCode ->
+
+                _morseTextState.value += when(morseCode) {
+                    MorseCode.SPACE -> " "
+                    else -> morseCode.name
+                }
+
+                MorseCode.getMorseSymbols(morseCode).forEach { morseSymbol ->
+                    when (morseSymbol) {
+                        MorseSymbol.DOT -> {
+                            turnOnFlashlight()
+                            delay(MORSE_DOT_DELAY)
+                            turnOffFlashlight()
+                            delay(MORSE_SYMBOL_PAUSE_DELAY)
+                        }
+                        MorseSymbol.DASH -> {
+                            turnOnFlashlight()
+                            delay(MORSE_DASH_DELAY)
+                            turnOffFlashlight()
+                            delay(MORSE_SYMBOL_PAUSE_DELAY)
+                        }
+                        MorseSymbol.LETTER_END -> {
+                            delay(MORSE_LETTER_PAUSE_DELAY)
+                        }
+                        MorseSymbol.WORD_END -> {
+                            delay(MORSE_WORD_PAUSE_DELAY)
+                        }
                     }
                 }
             }
-            if (loop) turnOnMorse(morse, loop)
+            if (loop) {
+                delay(MORSE_WORD_PAUSE_DELAY)
+                turnOnMorse(morseCodes, loop)
+            }
         }
     }
 
     private fun turnOnStroboscope() {
-        morseScope.cancel()
+        stop()
         morseScope = viewModelScope.launch {
             turnOnFlashlight()
             delay(STROBOSCOPE_DELAY)
@@ -106,5 +123,10 @@ class MainViewModel @Inject constructor(
             delay(STROBOSCOPE_DELAY)
             turnOnStroboscope()
         }
+    }
+
+    private fun stop() {
+        morseScope.cancel()
+        _morseTextState.value = DEFAULT_TEXT
     }
 }
