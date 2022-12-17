@@ -17,12 +17,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dezzomorf.morseflashlight.R
 import com.dezzomorf.morseflashlight.`object`.FlashlightAction
 import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 
@@ -78,7 +80,7 @@ fun MorseUi(
             TextField(
                 value = text,
                 onValueChange = { text = it },
-                label = { Text("Set your text") },
+                label = { Text(stringResource(R.string.set_your_text)) },
                 shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 colors = TextFieldDefaults.textFieldColors(
@@ -122,7 +124,7 @@ fun MorseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
         modifier = modifier
     ) {
         Text(
-            text = "TEXT TO MORSE",
+            text = stringResource(R.string.text_to_morse),
             style = textStyle,
             maxLines = 1,
             softWrap = false,

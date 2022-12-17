@@ -27,6 +27,41 @@ enum class MorseCode(private val char: Char) {
     X('X'),
     Y('Y'),
     Z('Z'),
+
+    А('А'),
+    Б('Б'),
+    В('В'),
+    Г('Г'),
+    Ґ('Ґ'),
+    Д('Д'),
+    Е('Е'),
+    Є('Є'),
+    Ж('Ж'),
+    З('З'),
+    И('И'),
+    І('І'),
+    Ї('Ї'),
+    Й('Й'),
+    К('К'),
+    Л('Л'),
+    М('М'),
+    Н('Н'),
+    О('О'),
+    П('П'),
+    Р('Р'),
+    С('С'),
+    Т('Т'),
+    У('У'),
+    Ф('Ф'),
+    Х('Х'),
+    Ц('Ц'),
+    Ч('Ч'),
+    Ш('Ш'),
+    Щ('Щ'),
+    Ю('Ю'),
+    Я('Я'),
+    Ь('Ь'),
+
     ONE('1'),
     TWO('2'),
     THREE('3'),
@@ -67,10 +102,45 @@ enum class MorseCode(private val char: Char) {
             X -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH)
             Y -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH)
             Z -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT)
+
+            А -> listOf(MorseSymbol.DOT, MorseSymbol.DASH)
+            Б -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT)
+            В -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH)
+            Г -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT)
+            Ґ -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT)
+            Д -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT)
+            Е -> listOf(MorseSymbol.DOT)
+            Є -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT)
+            Ж -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH)
+            З -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT)
+            И -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH)
+            І -> listOf(MorseSymbol.DOT, MorseSymbol.DOT)
+            Ї -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT)
+            Й -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH)
+            К -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH)
+            Л -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT)
+            М -> listOf(MorseSymbol.DASH, MorseSymbol.DASH)
+            Н -> listOf(MorseSymbol.DASH, MorseSymbol.DOT)
+            О -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH)
+            П -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT)
+            Р -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DOT)
+            С -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT)
+            Т -> listOf(MorseSymbol.DASH)
+            У -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH)
+            Ф -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DOT)
+            Х -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH)
+            Ц -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DOT)
+            Ч -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT)
+            Ш -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH)
+            Щ -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH)
+            Ю -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH)
+            Я -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DASH)
+            Ь -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH)
+
             ONE -> listOf(MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH)
             TWO -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DASH)
-            THREE ->  listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH)
-            FOUR ->  listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH)
+            THREE -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH, MorseSymbol.DASH)
+            FOUR -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DASH)
             FIVE -> listOf(MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT)
             SIX -> listOf(MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT)
             SEVEN -> listOf(MorseSymbol.DASH, MorseSymbol.DASH, MorseSymbol.DOT, MorseSymbol.DOT, MorseSymbol.DOT)

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +28,7 @@ fun MainButtons(
     flashlightState: Boolean,
     onAction: (FlashlightAction) -> Unit
 ) {
+    val context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -69,7 +71,7 @@ fun MainButtons(
                 Modifier
                     .weight(1f)
             ) {
-                onAction(FlashlightAction.Morse("SOS", true))
+                onAction(FlashlightAction.Morse(context.getString(R.string.sos), true))
             }
             StroboscopeButton(
                 Modifier
@@ -117,6 +119,7 @@ fun SimpleButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
 @Composable
 fun SosButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val context = LocalContext.current
     val defaultTextStyle = TextStyle(
         textAlign = TextAlign.Center,
         fontSize = 60.sp,
@@ -131,7 +134,7 @@ fun SosButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             .fillMaxSize()
     ) {
         Text(
-            text = "SOS",
+            text = context.getString(R.string.sos),
             style = textStyle,
             maxLines = 1,
             softWrap = false,
