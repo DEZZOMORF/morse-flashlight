@@ -48,7 +48,7 @@ fun MorseUi(
                 .align(Alignment.Start)
         ) {
             var lastVisibleTextIndex by rememberSaveable { mutableStateOf(0) }
-            if (morseText.length < 10) lastVisibleTextIndex = 0 // Use that because substring crash when clear [morseText]
+            if (morseText.length < lastVisibleTextIndex) lastVisibleTextIndex = 0
             val trimmedText = morseText.substring(lastVisibleTextIndex)
             Text(
                 text = trimmedText,
