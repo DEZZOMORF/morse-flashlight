@@ -3,7 +3,6 @@ package com.dezzomorf.morseflashlight.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.dezzomorf.morseflashlight.BuildConfig
 import com.dezzomorf.morseflashlight.`object`.FlashlightAction
 import com.dezzomorf.morseflashlight.`object`.MorseCode
 import com.dezzomorf.morseflashlight.`object`.MorseSymbol
@@ -24,11 +23,13 @@ class MainViewModel @Inject constructor(
 ) : AndroidViewModel(context) {
 
     companion object {
-        const val MORSE_DOT_DELAY = BuildConfig.MORSE_DOT_DELAY
-        const val MORSE_DASH_DELAY = MORSE_DOT_DELAY * 3
-        const val MORSE_SYMBOL_PAUSE_DELAY = MORSE_DOT_DELAY
-        const val MORSE_LETTER_PAUSE_DELAY = MORSE_DOT_DELAY * 2
-        const val MORSE_WORD_PAUSE_DELAY = MORSE_DOT_DELAY * 4
+        private const val MORSE_DEFAULT_DELAY = 700
+        var SPEED = 0.5f
+        val MORSE_DOT_DELAY: Long get() = (MORSE_DEFAULT_DELAY * SPEED).toLong()
+        val MORSE_DASH_DELAY: Long get() = MORSE_DOT_DELAY * 3
+        val MORSE_SYMBOL_PAUSE_DELAY: Long get() = MORSE_DOT_DELAY
+        val MORSE_LETTER_PAUSE_DELAY: Long get() = MORSE_DOT_DELAY * 2
+        val MORSE_WORD_PAUSE_DELAY: Long get() = MORSE_DOT_DELAY * 4
         const val STROBOSCOPE_DELAY = 50L
         const val DEFAULT_TEXT = " "
     }
@@ -55,6 +56,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun setSpeed(s:Float) {
+        SPEED = s
+    }
+
     private fun turnOffFlashlight() {
         torchManager.turnOffFlashlight()
         _flashlightState.value = false
@@ -79,7 +84,7 @@ class MainViewModel @Inject constructor(
         morseScope = viewModelScope.launch {
             morseCodes.forEach { morseCode ->
 
-                _morseTextState.value += when(morseCode) {
+                _morseTextState.value += when (morseCode) {
                     MorseCode.SPACE -> " "
                     else -> morseCode.name
                 }

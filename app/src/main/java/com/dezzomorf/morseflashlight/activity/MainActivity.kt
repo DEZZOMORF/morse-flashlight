@@ -70,7 +70,8 @@ class MainActivity : ComponentActivity() {
                         ) {
                             MorseUi(
                                 morseText = morseTextState,
-                                onAction = mainViewModel::onAction
+                                onAction = mainViewModel::onAction,
+                                morseSpeed = mainViewModel::setSpeed
                             )
                         }
                     }

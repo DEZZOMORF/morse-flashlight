@@ -27,8 +27,6 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            buildConfigField("long", "MORSE_DOT_DELAY", "200")
         }
         debug {
             debuggable true
@@ -36,8 +34,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             versionNameSuffix "-debug"
-
-            buildConfigField("long", "MORSE_DOT_DELAY", "2")
         }
     }
     compileOptions {

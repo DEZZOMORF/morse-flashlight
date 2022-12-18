@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -27,12 +25,14 @@ import androidx.compose.ui.unit.sp
 import com.dezzomorf.morseflashlight.R
 import com.dezzomorf.morseflashlight.`object`.FlashlightAction
 import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
+import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MorseUi(
     morseText: String,
-    onAction: (FlashlightAction) -> Unit
+    onAction: (FlashlightAction) -> Unit,
+    morseSpeed: (Float) -> Unit
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -49,33 +49,13 @@ fun MorseUi(
                 .weight(1f)
                 .align(Alignment.Start)
         ) {
-            var lastVisibleTextIndex by rememberSaveable { mutableStateOf(0) }
-            if (morseText.length < lastVisibleTextIndex) lastVisibleTextIndex = 0
-            val trimmedText = morseText.substring(lastVisibleTextIndex)
-            Text(
-                text = trimmedText,
-                maxLines = 1,
-                softWrap = false,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.Bottom)
-                    .clip(shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp))
-                    .background(Color.Gray)
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                onTextLayout = { textLayoutResult ->
-                    if (textLayoutResult.hasVisualOverflow) {
-                        lastVisibleTextIndex += textLayoutResult.getLineEnd(
-                            lineIndex = 0,
-                            visibleEnd = true
-                        ) - 1
-                    }
-                }
-            )
+            MorseTextProgress(morseText)
         }
+
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(5f)
+                .weight(4f)
         ) {
             TextField(
                 value = text,
@@ -86,7 +66,7 @@ fun MorseUi(
                 colors = TextFieldDefaults.textFieldColors(
                     focusedLabelColor = Color.White,
                     cursorColor = Color.White,
-                    focusedIndicatorColor = Color.White
+                    focusedIndicatorColor = Color.Transparent
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
@@ -97,12 +77,31 @@ fun MorseUi(
                 modifier = Modifier.fillMaxSize()
             )
         }
+
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(2f)
+                .weight(1f)
         ) {
-            MorseButton(Modifier.fillMaxSize()) {
+            MorseSpeedSlider(morseSpeed)
+        }
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp)
+                .background(Color.LightGray)
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1.5f)
+        ) {
+            MorseButton(
+                Modifier
+                    .fillMaxSize()
+                    .align(Alignment.CenterVertically)) {
                 onAction(FlashlightAction.Morse(text, false))
             }
         }
@@ -122,6 +121,7 @@ fun MorseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     BottomRoundCornerButton(
         onClick = onClick,
         modifier = modifier
+            .fillMaxSize()
     ) {
         Text(
             text = stringResource(R.string.text_to_morse),
@@ -129,8 +129,9 @@ fun MorseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             maxLines = 1,
             softWrap = false,
             modifier = Modifier
+                .fillMaxWidth()
                 .align(Alignment.Center)
-                .padding(horizontal = defaultContentPadding, vertical = 4.dp)
+                .padding(horizontal = defaultContentPadding)
                 .drawWithContent {
                     if (readyToDraw) drawContent()
                 },
@@ -141,6 +142,61 @@ fun MorseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
                     readyToDraw = true
                 }
             },
+        )
+    }
+}
+
+@Composable
+fun MorseTextProgress(morseText: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        var lastVisibleTextIndex by rememberSaveable { mutableStateOf(0) }
+        if (morseText.length < lastVisibleTextIndex) lastVisibleTextIndex = 0
+        val trimmedText = morseText.substring(lastVisibleTextIndex)
+        Text(
+            text = trimmedText,
+            maxLines = 1,
+            softWrap = false,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomStart)
+                .clip(shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp))
+                .background(Color.Gray)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            onTextLayout = { textLayoutResult ->
+                if (textLayoutResult.hasVisualOverflow) {
+                    lastVisibleTextIndex += textLayoutResult.getLineEnd(
+                        lineIndex = 0,
+                        visibleEnd = true
+                    ) - 1
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun MorseSpeedSlider(morseSpeed: (Float) -> Unit){
+    var sliderPosition by remember { mutableStateOf(MainViewModel.SPEED) }
+    Box(modifier = Modifier.fillMaxSize()) {
+        Slider(
+            value = sliderPosition,
+            valueRange = 0.2f..1f,
+            colors = SliderDefaults.colors(
+                thumbColor = Color.White,
+                activeTrackColor = Color.White
+            ),
+            onValueChange = {
+                sliderPosition = it
+                morseSpeed(1.2f - it)
+            },
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp))
+                .background(Color.Gray)
+                .padding(horizontal = defaultContentPadding)
         )
     }
 }
