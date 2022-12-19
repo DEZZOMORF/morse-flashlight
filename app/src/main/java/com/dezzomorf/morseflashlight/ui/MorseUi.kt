@@ -60,7 +60,7 @@ fun MorseUi(
             TextField(
                 value = text,
                 onValueChange = { text = it },
-                label = { Text(stringResource(R.string.set_your_text)) },
+                placeholder = { Text(stringResource(R.string.set_your_text)) },
                 shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 colors = TextFieldDefaults.textFieldColors(
@@ -101,7 +101,8 @@ fun MorseUi(
             MorseButton(
                 Modifier
                     .fillMaxSize()
-                    .align(Alignment.CenterVertically)) {
+                    .align(Alignment.CenterVertically)
+            ) {
                 onAction(FlashlightAction.Morse(text, false))
             }
         }
@@ -178,9 +179,22 @@ fun MorseTextProgress(morseText: String) {
 }
 
 @Composable
-fun MorseSpeedSlider(morseSpeed: (Float) -> Unit){
+fun MorseSpeedSlider(morseSpeed: (Float) -> Unit) {
     var sliderPosition by remember { mutableStateOf(MainViewModel.SPEED) }
-    Box(modifier = Modifier.fillMaxSize()) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp))
+            .background(Color.Gray)
+            .padding(horizontal = defaultContentPadding)
+    ) {
+        Text(
+            text = stringResource(R.string.speed),
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+        )
+        Spacer(modifier = Modifier
+            .width(4.dp))
         Slider(
             value = sliderPosition,
             valueRange = 0.2f..1f,
@@ -193,10 +207,7 @@ fun MorseSpeedSlider(morseSpeed: (Float) -> Unit){
                 morseSpeed(1.2f - it)
             },
             modifier = Modifier
-                .fillMaxSize()
-                .clip(shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp))
-                .background(Color.Gray)
-                .padding(horizontal = defaultContentPadding)
+                .fillMaxHeight()
         )
     }
 }
