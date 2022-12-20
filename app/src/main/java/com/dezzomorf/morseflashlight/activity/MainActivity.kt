@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dezzomorf.morseflashlight.BuildConfig
 import com.dezzomorf.morseflashlight.manager.InAppUpdateManager
+import com.dezzomorf.morseflashlight.ui.BannerAdView
 import com.dezzomorf.morseflashlight.ui.MainButtons
 import com.dezzomorf.morseflashlight.ui.MorseUi
 import com.dezzomorf.morseflashlight.ui.theme.DarkGray
@@ -20,6 +21,7 @@ import com.dezzomorf.morseflashlight.ui.theme.MorseFlashlightTheme
 import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
 import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +35,7 @@ class MainActivity : ComponentActivity() {
 
         setUpCrashlytics()
         setUpUpdateManager()
+        setUpAdMob()
 
         setContent {
             val systemUiController = rememberSystemUiController()
@@ -41,38 +44,48 @@ class MainActivity : ComponentActivity() {
             )
             MorseFlashlightTheme(darkTheme = true) {
                 Surface(modifier = Modifier.fillMaxSize()) {
+
+                    val padding = 24.dp
                     val mainViewModel: MainViewModel = hiltViewModel()
                     val flashlightState by mainViewModel.flashlightState.collectAsState()
                     val morseTextState by mainViewModel.morseTextState.collectAsState()
+
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(defaultArrangementSpace),
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(40.dp)
                     ) {
+
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .weight(1f)
+                                .padding(start = padding, top = padding, end = padding)
                         ) {
                             MainButtons(
                                 flashlightState = flashlightState,
                                 onAction = mainViewModel::onAction
                             )
                         }
+
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .weight(1f)
+                                .padding(start = padding, bottom = padding, end = padding)
                         ) {
                             MorseUi(
                                 morseText = morseTextState,
                                 onAction = mainViewModel::onAction,
                                 morseSpeed = mainViewModel::setSpeed
                             )
+                        }
+
+                        Row(Modifier.fillMaxWidth()) {
+                            BannerAdView()
                         }
                     }
                 }
@@ -96,5 +109,9 @@ class MainActivity : ComponentActivity() {
 
     private fun setUpUpdateManager() {
         updateManager = InAppUpdateManager(this)
+    }
+
+    private fun setUpAdMob() {
+        MobileAds.initialize(this)
     }
 }
