@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.dezzomorf.morseflashlight.ui.theme.ViewBackground
 
 @Composable
 fun RoundCornerButton(
@@ -22,7 +22,7 @@ fun RoundCornerButton(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .clip(shape = RoundedCornerShape(24.dp))
-            .background(Color.Gray)
+            .background(ViewBackground)
             .clickable { onClick() }
             .then(modifier)) {
         content.invoke(this)
@@ -39,7 +39,7 @@ fun BottomRoundCornerButton(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .clip(shape = RoundedCornerShape(0.dp, 0.dp, 24.dp, 24.dp))
-            .background(Color.Gray)
+            .background(ViewBackground)
             .clickable { onClick() }
             .then(modifier)) {
         content.invoke(this)

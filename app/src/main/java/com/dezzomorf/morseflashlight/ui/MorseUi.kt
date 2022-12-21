@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dezzomorf.morseflashlight.R
 import com.dezzomorf.morseflashlight.`object`.FlashlightAction
+import com.dezzomorf.morseflashlight.ui.theme.ViewBackground
 import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
 
@@ -57,6 +58,7 @@ fun MorseUi(
                 .fillMaxSize()
                 .weight(4f)
         ) {
+            val color = ViewBackground.copy(alpha = 0.5f)
             TextField(
                 value = text,
                 onValueChange = { text = it },
@@ -66,7 +68,9 @@ fun MorseUi(
                 colors = TextFieldDefaults.textFieldColors(
                     focusedLabelColor = Color.White,
                     cursorColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = color,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    backgroundColor = color
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
@@ -90,7 +94,7 @@ fun MorseUi(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(2.dp)
-                .background(Color.LightGray)
+                .background(ViewBackground.copy(alpha = 0.5f))
         )
 
         Row(
@@ -164,7 +168,7 @@ fun MorseTextProgress(morseText: String) {
                 .fillMaxWidth()
                 .align(Alignment.BottomStart)
                 .clip(shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp))
-                .background(Color.Gray)
+                .background(ViewBackground)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             onTextLayout = { textLayoutResult ->
                 if (textLayoutResult.hasVisualOverflow) {
@@ -185,7 +189,7 @@ fun MorseSpeedSlider(morseSpeed: (Float) -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .clip(shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp))
-            .background(Color.Gray)
+            .background(ViewBackground)
             .padding(horizontal = defaultContentPadding)
     ) {
         Text(

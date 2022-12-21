@@ -16,11 +16,9 @@ import com.dezzomorf.morseflashlight.manager.InAppUpdateManager
 import com.dezzomorf.morseflashlight.ui.BannerAdView
 import com.dezzomorf.morseflashlight.ui.MainButtons
 import com.dezzomorf.morseflashlight.ui.MorseUi
-import com.dezzomorf.morseflashlight.ui.theme.DarkGray
 import com.dezzomorf.morseflashlight.ui.theme.MorseFlashlightTheme
 import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
 import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,10 +36,6 @@ class MainActivity : ComponentActivity() {
         setUpAdMob()
 
         setContent {
-            val systemUiController = rememberSystemUiController()
-            systemUiController.setSystemBarsColor(
-                color = DarkGray
-            )
             MorseFlashlightTheme(darkTheme = true) {
                 Surface(modifier = Modifier.fillMaxSize()) {
 

@@ -6,4 +6,6 @@ val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
-val DarkGray = Color(0xFF111111)
+
+val AppBackground = Color(0xFF111111)
+val ViewBackground = Color(0xFF002842)
