@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Ліхтарик Морзе</string>
     <string name="text_to_morse">Текст в Морзе</string>
-    <string name="set_your_text">Вставте свій текст</string>
+    <string name="set_your_text">Впишіть свій текст</string>
     <string name="speed">Швидкість:</string>
+    <string name="updating">Оновлення…</string>
 </resources>
