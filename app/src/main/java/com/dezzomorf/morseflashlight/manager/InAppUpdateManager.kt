@@ -12,7 +12,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 
-class InAppUpdateManager(private val activity: Activity): InstallStateUpdatedListener {
+class InAppUpdateManager(private val activity: Activity) : InstallStateUpdatedListener {
 
     companion object {
         private const val UPDATE_REQUEST_CODE = 500
@@ -32,6 +32,7 @@ class InAppUpdateManager(private val activity: Activity): InstallStateUpdatedLis
     }
 
     private fun startUpdate(info: AppUpdateInfo, type: Int) {
+        showUpdatingToast()
         appUpdateManager.startUpdateFlowForResult(info, type, parentActivity, UPDATE_REQUEST_CODE)
         currentType = type
     }
@@ -39,8 +40,9 @@ class InAppUpdateManager(private val activity: Activity): InstallStateUpdatedLis
     fun onResume() {
         appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
             if (currentType == AppUpdateType.FLEXIBLE) {
-                if (info.installStatus() == InstallStatus.DOWNLOADED)
-                    completeUpdate()
+                if (info.installStatus() == InstallStatus.DOWNLOADED) {
+                    appUpdateManager.completeUpdate()
+                }
             } else if (currentType == AppUpdateType.IMMEDIATE) {
                 if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                     startUpdate(info, AppUpdateType.IMMEDIATE)
@@ -54,14 +56,13 @@ class InAppUpdateManager(private val activity: Activity): InstallStateUpdatedLis
         appUpdateManager.unregisterListener(this)
     }
 
-    private fun completeUpdate() {
-        Toast.makeText(parentActivity, activity.getString(R.string.updating), Toast.LENGTH_LONG).show()
-        appUpdateManager.completeUpdate()
+    private fun showUpdatingToast() {
+        Toast.makeText(parentActivity, activity.getString(R.string.updating), Toast.LENGTH_SHORT).show()
     }
 
     override fun onStateUpdate(state: InstallState) {
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
-            completeUpdate()
+            appUpdateManager.completeUpdate()
         }
     }
 }
