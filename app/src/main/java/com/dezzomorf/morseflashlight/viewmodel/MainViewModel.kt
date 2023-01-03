@@ -44,19 +44,38 @@ class MainViewModel @Inject constructor(
 
     private var morseScope: Job = viewModelScope.launch {}
 
-    fun onAction(action: FlashlightAction) {
-        when (action) {
-            is FlashlightAction.Torch -> turnFlashlight()
-            is FlashlightAction.Morse -> turnOnMorse(action.textOnMorse, action.loop)
-            is FlashlightAction.Stroboscope -> turnOnStroboscope()
-            is FlashlightAction.Off -> {
+    private var lastAction: FlashlightAction? = null
+    private var isStarted: Boolean = false
+        set(value) {
+            if (!value) {
                 stop()
                 turnOffFlashlight()
             }
+            field = value
+        }
+
+    fun onAction(action: FlashlightAction) {
+        isStarted = !isStarted
+
+        if (isStarted || action != lastAction) {
+            isStarted = true
+            lastAction = action
+            when (action) {
+                is FlashlightAction.Torch -> turnOnFlashlight()
+                is FlashlightAction.Morse -> turnOnMorse(action.textOnMorse, action.loop)
+                is FlashlightAction.Stroboscope -> turnOnStroboscope()
+                is FlashlightAction.Off -> isStarted = false
+            }
+        }
+
+        lastAction = if (isStarted) {
+            action
+        } else {
+            null
         }
     }
 
-    fun setSpeed(s:Float) {
+    fun setSpeed(s: Float) {
         SPEED = s
     }
 
@@ -68,15 +87,6 @@ class MainViewModel @Inject constructor(
     private fun turnOnFlashlight() {
         torchManager.turnOnFlashlight()
         _flashlightState.value = true
-    }
-
-    private fun turnFlashlight() {
-        stop()
-        if (!flashlightState.value) {
-            turnOnFlashlight()
-        } else {
-            turnOffFlashlight()
-        }
     }
 
     private fun turnOnMorse(morseCodes: List<MorseCode>, loop: Boolean) {
