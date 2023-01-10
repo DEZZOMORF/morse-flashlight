@@ -42,7 +42,8 @@ class MainActivity : ComponentActivity() {
                     val padding = 24.dp
                     val mainViewModel: MainViewModel = hiltViewModel()
                     val flashlightState by mainViewModel.flashlightState.collectAsState()
-                    val morseTextState by mainViewModel.morseTextState.collectAsState()
+                    val textProgressState by mainViewModel.textProgressState.collectAsState()
+                    val textOnMorseState by mainViewModel.textOnMorseState.collectAsState()
 
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -72,9 +73,10 @@ class MainActivity : ComponentActivity() {
                                 .padding(start = padding, bottom = padding, end = padding)
                         ) {
                             MorseUi(
-                                morseText = morseTextState,
+                                textProgress = textProgressState,
                                 onAction = mainViewModel::onAction,
-                                morseSpeed = mainViewModel::setSpeed
+                                morseSpeed = mainViewModel::setSpeed,
+                                textOnMorse = textOnMorseState
                             )
                         }
 

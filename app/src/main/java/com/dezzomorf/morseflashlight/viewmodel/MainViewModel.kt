@@ -39,8 +39,11 @@ class MainViewModel @Inject constructor(
     private val _flashlightState = MutableStateFlow(false)
     val flashlightState: StateFlow<Boolean> = _flashlightState.asStateFlow()
 
-    private val _morseTextState = MutableStateFlow(DEFAULT_TEXT)
-    val morseTextState: StateFlow<String> = _morseTextState.asStateFlow()
+    private val _textProgressState = MutableStateFlow(DEFAULT_TEXT)
+    val textProgressState: StateFlow<String> = _textProgressState.asStateFlow()
+
+    private val _textOnMorseState = MutableStateFlow(emptyList<MorseCode>())
+    val textOnMorseState: StateFlow<List<MorseCode>> = _textOnMorseState.asStateFlow()
 
     private var morseScope: Job = viewModelScope.launch {}
 
@@ -91,10 +94,11 @@ class MainViewModel @Inject constructor(
 
     private fun turnOnMorse(morseCodes: List<MorseCode>, loop: Boolean) {
         stop()
+        _textOnMorseState.value = morseCodes
         morseScope = viewModelScope.launch {
             morseCodes.forEach { morseCode ->
 
-                _morseTextState.value += when (morseCode) {
+                _textProgressState.value += when (morseCode) {
                     MorseCode.SPACE -> " "
                     else -> morseCode.name
                 }
@@ -142,6 +146,6 @@ class MainViewModel @Inject constructor(
 
     private fun stop() {
         morseScope.cancel()
-        _morseTextState.value = DEFAULT_TEXT
+        _textProgressState.value = DEFAULT_TEXT
     }
 }
