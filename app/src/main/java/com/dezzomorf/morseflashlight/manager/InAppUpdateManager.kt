@@ -41,6 +41,7 @@ class InAppUpdateManager(private val activity: Activity) : InstallStateUpdatedLi
         appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
             if (currentType == AppUpdateType.FLEXIBLE) {
                 if (info.installStatus() == InstallStatus.DOWNLOADED) {
+                    showUpdatingToast()
                     appUpdateManager.completeUpdate()
                 }
             } else if (currentType == AppUpdateType.IMMEDIATE) {
@@ -62,6 +63,7 @@ class InAppUpdateManager(private val activity: Activity) : InstallStateUpdatedLi
 
     override fun onStateUpdate(state: InstallState) {
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            showUpdatingToast()
             appUpdateManager.completeUpdate()
         }
     }

@@ -194,7 +194,7 @@ fun MorseTextProgress(morseText: String, textOnMorse: List<MorseCode>) {
         )
 
         val openDialog = remember { mutableStateOf(false) }
-        AppDialog(
+        MorseInfoDialog(
             dialogState = openDialog.value,
             onDialogStateChange = { openDialog.value = it },
             textOnMorse = textOnMorse
@@ -219,7 +219,7 @@ fun MorseTextProgress(morseText: String, textOnMorse: List<MorseCode>) {
 }
 
 @Composable
-fun AppDialog(
+fun MorseInfoDialog(
     modifier: Modifier = Modifier,
     dialogState: Boolean = false,
     onDialogPositiveButtonClicked: (() -> Unit)? = null,
@@ -228,7 +228,7 @@ fun AppDialog(
     textOnMorse: List<MorseCode>
 ) {
     val textPaddingAll = 24.dp
-    val dialogShape = RoundedCornerShape(16.dp)
+    val dialogShape = RoundedCornerShape(24.dp)
 
     if (dialogState) {
         AlertDialog(
@@ -250,7 +250,7 @@ fun AppDialog(
                     ) {
                         textOnMorse.forEach {
                             val morseSymbols = MorseCode.getMorseSymbols(it)
-                            Row() {
+                            Row {
                                 if (it == MorseCode.SPACE) {
                                     Spacer(
                                         modifier = Modifier
@@ -261,6 +261,7 @@ fun AppDialog(
                                 } else {
                                     Text(text = "${it.name} -> ")
                                 }
+
                                 morseSymbols.forEach { morseSymbol ->
                                     Spacer(modifier = Modifier.width(2.dp))
                                     when (morseSymbol) {
