@@ -16,59 +16,53 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dezzomorf.morseflashlight.R
 import com.dezzomorf.morseflashlight.`object`.FlashlightAction
 import com.dezzomorf.morseflashlight.`object`.MorseCode
 import com.dezzomorf.morseflashlight.`object`.MorseSymbol
+import com.dezzomorf.morseflashlight.ui.theme.AppBackground
 import com.dezzomorf.morseflashlight.ui.theme.ViewBackground
 import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MorseUi(
-    textProgress: String,
-    onAction: (FlashlightAction) -> Unit,
-    morseSpeed: (Float) -> Unit,
-    textOnMorse: List<MorseCode>
-) {
+fun MorseUi(modifier: Modifier = Modifier) {
 
     var text by rememberSaveable { mutableStateOf("") }
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val mainViewModel: MainViewModel = hiltViewModel()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
     ) {
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1.1f)
                 .align(Alignment.Start)
         ) {
-            MorseTextProgress(textProgress, textOnMorse)
+            val textProgressState by mainViewModel.textProgressState.collectAsState()
+            val textOnMorseState by mainViewModel.textOnMorseState.collectAsState()
+            MorseTextProgress(textProgressState, textOnMorseState)
         }
 
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(4f)
         ) {
             val color = ViewBackground.copy(alpha = 0.5f)
+            val keyboardController = LocalSoftwareKeyboardController.current
             TextField(
                 value = text,
                 onValueChange = { text = it },
@@ -85,19 +79,19 @@ fun MorseUi(
                 keyboardActions = KeyboardActions(
                     onDone = {
                         keyboardController?.hide()
-                        onAction(FlashlightAction.Morse(text, false))
+                        mainViewModel.onAction(FlashlightAction.Morse(text, false))
                     }
                 ),
                 modifier = Modifier.fillMaxSize()
             )
         }
 
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f)
         ) {
-            MorseSpeedSlider(morseSpeed)
+            MorseSpeedSlider(mainViewModel::setSpeed)
         }
 
         Spacer(
@@ -107,17 +101,18 @@ fun MorseUi(
                 .background(ViewBackground.copy(alpha = 0.5f))
         )
 
-        Row(
+        Box(
+            contentAlignment =  Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .weight(1.5f)
+                .weight(1.0f)
         ) {
             MorseButton(
                 Modifier
                     .fillMaxSize()
-                    .align(Alignment.CenterVertically)
+                    .align(Alignment.Center)
             ) {
-                onAction(FlashlightAction.Morse(text, false))
+                mainViewModel.onAction(FlashlightAction.Morse(text, false))
             }
         }
     }
@@ -125,38 +120,16 @@ fun MorseUi(
 
 @Composable
 fun MorseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val defaultTextStyle = TextStyle(
-        textAlign = TextAlign.Center,
-        fontSize = 60.sp,
-        fontWeight = FontWeight.Bold
-    )
-    var textStyle by remember { mutableStateOf(defaultTextStyle) }
-    var readyToDraw by remember { mutableStateOf(false) }
-
     BottomRoundCornerButton(
         onClick = onClick,
         modifier = modifier
-            .fillMaxSize()
     ) {
-        Text(
+        TextButtonContent(
             text = stringResource(R.string.text_to_morse),
-            style = textStyle,
-            maxLines = 1,
-            softWrap = false,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .align(Alignment.Center)
                 .padding(horizontal = defaultContentPadding)
-                .drawWithContent {
-                    if (readyToDraw) drawContent()
-                },
-            onTextLayout = { textLayoutResult ->
-                if (textLayoutResult.didOverflowWidth) {
-                    textStyle = textStyle.copy(fontSize = textStyle.fontSize * 0.9)
-                } else {
-                    readyToDraw = true
-                }
-            },
         )
     }
 }
@@ -236,6 +209,7 @@ fun MorseInfoDialog(
                 onDialogStateChange?.invoke(false)
                 onDismissRequest?.invoke()
             },
+            backgroundColor = ViewBackground,
             title = null,
             text = null,
             buttons = {
@@ -256,7 +230,7 @@ fun MorseInfoDialog(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .height(1.dp)
-                                            .background(ViewBackground.copy(alpha = 0.5f))
+                                            .background(AppBackground)
                                     )
                                 } else {
                                     Text(text = "${it.name} -> ")
@@ -274,7 +248,7 @@ fun MorseInfoDialog(
                         }
                     }
 
-                    Divider(color = ViewBackground.copy(alpha = 0.5f), thickness = 1.dp)
+                    Divider(color = AppBackground, thickness = 1.dp)
 
                     Box(
                         modifier = Modifier

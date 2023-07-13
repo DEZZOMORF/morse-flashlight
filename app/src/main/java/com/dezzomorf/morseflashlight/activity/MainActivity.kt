@@ -3,14 +3,15 @@ package com.dezzomorf.morseflashlight.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.dezzomorf.morseflashlight.BuildConfig
 import com.dezzomorf.morseflashlight.manager.InAppUpdateManager
 import com.dezzomorf.morseflashlight.ui.BannerAdView
@@ -18,7 +19,6 @@ import com.dezzomorf.morseflashlight.ui.MainButtons
 import com.dezzomorf.morseflashlight.ui.MorseUi
 import com.dezzomorf.morseflashlight.ui.theme.MorseFlashlightTheme
 import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
-import com.dezzomorf.morseflashlight.viewmodel.MainViewModel
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,10 +40,6 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
 
                     val padding = 24.dp
-                    val mainViewModel: MainViewModel = hiltViewModel()
-                    val flashlightState by mainViewModel.flashlightState.collectAsState()
-                    val textProgressState by mainViewModel.textProgressState.collectAsState()
-                    val textOnMorseState by mainViewModel.textOnMorseState.collectAsState()
 
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,37 +48,21 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                     ) {
 
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
+                        MainButtons(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .weight(1f)
                                 .padding(start = padding, top = padding, end = padding)
-                        ) {
-                            MainButtons(
-                                flashlightState = flashlightState,
-                                onAction = mainViewModel::onAction
-                            )
-                        }
+                        )
 
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
+                        MorseUi(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .weight(1f)
                                 .padding(start = padding, bottom = padding, end = padding)
-                        ) {
-                            MorseUi(
-                                textProgress = textProgressState,
-                                onAction = mainViewModel::onAction,
-                                morseSpeed = mainViewModel::setSpeed,
-                                textOnMorse = textOnMorseState
-                            )
-                        }
+                        )
 
-                        Row(Modifier.fillMaxWidth()) {
-                            BannerAdView()
-                        }
+                        BannerAdView(modifier = Modifier.fillMaxWidth())
                     }
                 }
             }

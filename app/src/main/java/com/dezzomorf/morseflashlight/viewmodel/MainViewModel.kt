@@ -30,10 +30,9 @@ class MainViewModel @Inject constructor(
         val MORSE_SYMBOL_PAUSE_DELAY: Long get() = MORSE_DOT_DELAY
         val MORSE_LETTER_PAUSE_DELAY: Long get() = MORSE_DOT_DELAY * 2
         val MORSE_WORD_PAUSE_DELAY: Long get() = MORSE_DOT_DELAY * 4
-        const val STROBOSCOPE_DELAY = 50L
+        val STROBOSCOPE_DELAY get() = (100 * SPEED).toLong()
         const val DEFAULT_TEXT = " "
     }
-
     private val torchManager = TorchManager(context)
 
     private val _flashlightState = MutableStateFlow(false)
