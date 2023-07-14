@@ -250,7 +250,7 @@ fun MorseInfoItem(modifier: Modifier = Modifier, item: MorseCode) {
                 modifier = modifier
                     .width(16.dp)
                     .background(AppBackground),
-                text = item.name,
+                text = item.char.toString(),
                 textAlign = TextAlign.Center
             )
         }

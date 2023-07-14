@@ -1,6 +1,6 @@
 package com.dezzomorf.morseflashlight.`object`
 
-enum class MorseCode(private val char: Char) {
+enum class MorseCode(val char: Char) {
     A('A'),
     B('B'),
     C('C'),
