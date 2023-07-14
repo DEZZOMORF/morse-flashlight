@@ -29,18 +29,26 @@ import com.dezzomorf.morseflashlight.ui.theme.ViewBackground
 import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 
 @Composable
-fun RoundCornerSquareButton(
+fun RoundCornerBox(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    content: @Composable() (BoxScope.() -> Unit)
+    onClick: (() -> Unit)? = null,
+    content: @Composable (BoxScope.() -> Unit)
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .clip(shape = RoundedCornerShape(24.dp))
             .background(ViewBackground)
-            .clickable { onClick() }
-            .then(modifier)) {
+            .clickable(
+                enabled = onClick != null,
+                onClick = {
+                    if (onClick != null) {
+                        onClick()
+                    }
+                }
+            )
+            .then(modifier)
+    ) {
         content.invoke(this)
     }
 }
@@ -82,28 +90,11 @@ fun TextButtonContent(
                 if (readyToDraw) drawContent()
             },
         onTextLayout = { textLayoutResult ->
-            if (textLayoutResult.didOverflowWidth) {
+            if (textLayoutResult.hasVisualOverflow) {
                 textStyle = textStyle.copy(fontSize = textStyle.fontSize * 0.9)
             } else {
                 readyToDraw = true
             }
         },
     )
-}
-
-@Composable
-fun BottomRoundCornerButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    content: @Composable() (BoxScope.() -> Unit)
-) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(0.dp, 0.dp, 24.dp, 24.dp))
-            .background(ViewBackground)
-            .clickable { onClick() }
-            .then(modifier)) {
-        content.invoke(this)
-    }
 }

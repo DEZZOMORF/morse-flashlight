@@ -11,14 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.dezzomorf.morseflashlight.BuildConfig
 import com.dezzomorf.morseflashlight.manager.InAppUpdateManager
 import com.dezzomorf.morseflashlight.ui.BannerAdView
 import com.dezzomorf.morseflashlight.ui.MainButtons
+import com.dezzomorf.morseflashlight.ui.MorseSpeedSlider
 import com.dezzomorf.morseflashlight.ui.MorseUi
 import com.dezzomorf.morseflashlight.ui.theme.MorseFlashlightTheme
 import com.dezzomorf.morseflashlight.ui.theme.defaultArrangementSpace
+import com.dezzomorf.morseflashlight.ui.theme.defaultContentPadding
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,31 +39,41 @@ class MainActivity : ComponentActivity() {
         setContent {
             MorseFlashlightTheme(darkTheme = true) {
                 Surface(modifier = Modifier.fillMaxSize()) {
-
-                    val padding = 24.dp
-
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(defaultArrangementSpace),
-                        modifier = Modifier
-                            .fillMaxSize()
+                        modifier = Modifier.fillMaxSize()
                     ) {
-
-                        MainButtons(
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(defaultArrangementSpace),
                             modifier = Modifier
-                                .fillMaxSize()
+                                .fillMaxWidth()
+                                .padding(defaultContentPadding)
                                 .weight(1f)
-                                .padding(start = padding, top = padding, end = padding)
-                        )
+                        ) {
 
-                        MorseUi(
+                            MainButtons(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                            )
+
+                            MorseSpeedSlider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            MorseUi(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                            )
+                        }
+
+                        BannerAdView(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .weight(1f)
-                                .padding(start = padding, bottom = padding, end = padding)
+                                .fillMaxWidth()
                         )
-
-                        BannerAdView(modifier = Modifier.fillMaxWidth())
                     }
                 }
             }

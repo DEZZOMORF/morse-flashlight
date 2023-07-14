@@ -93,7 +93,7 @@ fun MainButtons(modifier: Modifier = Modifier) {
 
 @Composable
 fun OffButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    RoundCornerSquareButton(
+    RoundCornerBox(
         onClick = onClick,
         modifier = modifier
             .fillMaxSize()
@@ -106,7 +106,7 @@ fun OffButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
 @Composable
 fun SimpleButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    RoundCornerSquareButton(
+    RoundCornerBox(
         onClick = onClick,
         modifier = modifier
             .fillMaxSize()
@@ -119,7 +119,7 @@ fun SimpleButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
 @Composable
 fun SosButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    RoundCornerSquareButton(
+    RoundCornerBox(
         onClick = onClick,
         modifier = modifier
             .fillMaxSize()
@@ -132,7 +132,7 @@ fun SosButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
 @Composable
 fun StroboscopeButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    RoundCornerSquareButton(
+    RoundCornerBox(
         onClick = onClick,
         modifier = modifier
             .fillMaxSize()
