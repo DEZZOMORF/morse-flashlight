@@ -13,8 +13,8 @@ android {
         applicationId "com.dezzomorf.morseflashlight"
         minSdk 23
         targetSdk 33
-        versionCode 9
-        versionName "1.4"
+        versionCode 10
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -99,7 +99,7 @@ class MainViewModel @Inject constructor(
 
                 _textProgressState.value += when (morseCode) {
                     MorseCode.SPACE -> " "
-                    else -> morseCode.name
+                    else -> morseCode.char
                 }
 
                 MorseCode.getMorseSymbols(morseCode).forEach { morseSymbol ->
